@@ -1,8 +1,9 @@
 import { filterHeroes } from "@/utils/filterHeroes";
-import { HeroList } from "./HeroList";
-import { SearchBar } from "./SearchBar";
+import { HeroList } from "../HeroList";
+import { SearchBar } from "../SearchBar";
 import { useState, useEffect, useMemo } from "react";
 import { HeroProps } from "@/utils/interfaces";
+import styles from './FilterHeroesWrapper.module.scss'
 
 const API_URL = "https://www.dota2.com/datafeed/herolist?language=russian";
 
@@ -62,7 +63,7 @@ export function FilterHeroesWrapper() {
   }
 
   return (
-    <div className="hero-filter-wrapper">
+    <div className={styles.HeroFilterWrapper}>
       <SearchBar
         onClick={handleAttrClick}
         onComplClick={handleClickComplexity}
