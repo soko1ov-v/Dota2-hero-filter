@@ -1,22 +1,34 @@
 import { HeroProps } from "./interfaces";
 
 export interface filterHeroesProps {
-    query: string;
-    name: string;
-    name_loc: string;
-    complexity: number;
-    primary_attr: number;
-    heroes: HeroProps[];
-    hero: HeroProps;
+  query: string;
+  name: string;
+  name_loc: string;
+  complexity: number;
+  primary_attr: number;
+  heroes: HeroProps[];
+  hero: HeroProps;
 }
 
-export function filterHeroes(sortedHeroes: HeroProps[], query: string, primary_attr: number, complexity: number) {
-    
-    const normalizedQuery = query.toLowerCase();
+export const heroAttrs: { [key: string]: string } = {
+  "0": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_strength.png",
+  "1": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_agility.png",
+  "2": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_intelligence.png",
+  "3": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_universal.png",
+};
 
-    return sortedHeroes.filter(hero =>
-        hero.name_loc.toLowerCase().includes(normalizedQuery) &&
-        (primary_attr === -1 || hero.primary_attr === primary_attr) &&
-        (complexity === -1 || hero.complexity === complexity)
-    );
+export function filterHeroes(
+  sortedHeroes: HeroProps[],
+  query: string,
+  attr: number,
+  complexity: number
+) {
+  const normalizedQuery = query.toLowerCase();
+
+  return sortedHeroes.filter(
+    (hero) =>
+      hero.name_loc.toLowerCase().includes(normalizedQuery) &&
+      (attr === -1 || attr === hero.primary_attr) &&
+      (complexity === -1 || hero.complexity === complexity)
+  );
 }

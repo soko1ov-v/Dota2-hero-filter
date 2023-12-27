@@ -3,42 +3,103 @@ import { Button } from "./Button";
 import { Input } from "./Input";
 import { SearchIcon } from "./icons/SearchIcon";
 
+const attributes: { [key: string]:  { image: string; text: string; value: number } } = {
+  0: {
+   image: "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-str-active.png",
+   text: "str",
+   value: 0
+  },
+  1: {
+    image: "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-agi-active.png",
+    text: "agi",
+    value: 1
+  },
+  2: {
+    image: "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-int-active.png",
+    text: "int",
+    value: 2
+  },
+  3: {
+    image: "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-uni-active.png",
+    text: "uni",
+    value: 3
+  },
+};
 
-export function SearchBar({ heroSpecific, attrActive, query, onChange, onClick, onComplClick }: SearchBarProps) {
-    
+const complexityMap: { [key: string]: { image: string; value: number } } = {
+  1: {
+    image:
+      "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-diamond.png",
+    value: 1,
+  },
+  2: {
+    image:
+      "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-diamond.png",
+    value: 2,
+  },
+  3: {
+    image:
+      "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-diamond.png",
+    value: 3,
+  },
+};
 
-    return (
-        <div className="search-bar">
-            <h3 className="search-bar__title">FILTER HEROES</h3>
-            <div className="attr-filter-container">
-                <h3 className="filter-title">ATTRIBUTE</h3>
-                <Button className={`attr-btn btn ${attrActive.str ? "btn--active" : ""}`} text="str" onClick={() => onClick("str")}
-                    style={{ backgroundImage: "url(https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-str-active.png)" }} />
-                <Button className={`attr-btn btn ${attrActive.agi ? "btn--active" : ""}`} text="agi" onClick={() => onClick("agi")}
-                    style={{ backgroundImage: "url(https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-agi-active.png)" }} />
-                <Button className={`attr-btn btn ${attrActive.int ? "btn--active" : ""}`} text="int" onClick={() => onClick("int")}
-                    style={{ backgroundImage: "url(https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-int-active.png)" }} />
-                <Button className={`attr-btn btn ${attrActive.uni ? "btn--active" : ""}`} text="uni" onClick={() => onClick("uni")}
-                    style={{ backgroundImage: "url(https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-uni-active.png)" }} />
-            </div>
+export function SearchBar({
+  complexity,
+  attrActive,
+  query,
+  onChange,
+  onClick,
+  onComplClick,
+}: SearchBarProps) {
+  return (
+    <div className="search-bar">
+      <h3 className="search-bar__title">FILTER HEROES</h3>
+      <div className="attr-filter-container">
+        <h3 className="filter-title">ATTRIBUTE</h3>
+        {Object.keys(attributes).map((attr) => {
+          return (
+            <Button
+              key={attr}
+              className={`attr-btn btn ${
+                attrActive === attributes[attr].value ? "btn--active" : ""
+              }`}
+              text={attributes[attr].text}
+              onClick={() => onClick(attributes[attr].value)}
+              style={{ backgroundImage: `url(${attributes[attr].image})` }}
+            />
+          );
+        })}
+      </div>
 
-            <div className="compl-filter-container">
-                <h3 className="filter-title">COMPLEXITY</h3>
-                <Button className={`compl-btn btn ${(heroSpecific.complexity === 3 || heroSpecific.complexity === 2 || heroSpecific.complexity === 1) ? "btn--active" : ""}`} onClick={() => onComplClick(1)}
-                    style={{ backgroundImage: "url(https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-diamond.png)" }} />
-                <Button className={`compl-btn btn ${(heroSpecific.complexity === 3 || heroSpecific.complexity === 2) ? "btn--active" : ""}`} onClick={() => onComplClick(2)}
-                    style={{ backgroundImage: "url(https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-diamond.png)" }} />
-                <Button className={`compl-btn btn ${heroSpecific.complexity === 3 ? "btn--active" : ""}`} onClick={() => onComplClick(3)}
-                    style={{ backgroundImage: "url(https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/herogrid/filter-diamond.png)" }} />
-            </div>
+      <div className="compl-filter-container">
+        <h3 className="filter-title">COMPLEXITY</h3>
+        {Object.keys(complexityMap).map((comp) => {
+          return (
+            <Button
+              key={comp}
+              className={`compl-btn btn ${
+                complexity >= complexityMap[comp].value ? "btn--active" : ""
+              }`}
+              onClick={() => onComplClick(complexityMap[comp].value)}
+              style={{
+                backgroundImage: `url(${complexityMap[comp].image})`,
+              }}
+            />
+          );
+        })}
+      </div>
 
-            <div className="hero-search-container">
-                <SearchIcon />
-                <form>
-                    <Input onChange={onChange} className="hero-search-input" value={query} />
-                </form>
-            </div>
-
-        </div>
-    )
+      <div className="hero-search-container">
+        <SearchIcon />
+        <form>
+          <Input
+            onChange={onChange}
+            className="hero-search-input"
+            value={query}
+          />
+        </form>
+      </div>
+    </div>
+  );
 }
