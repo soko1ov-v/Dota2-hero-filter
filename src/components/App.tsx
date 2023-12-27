@@ -1,6 +1,6 @@
 "use client"
 
-import { FilterHeroesWrapper } from "./FilterHeroesWrapper";
+import { FilterHeroesWrapper } from "./FilterHeroesWrapper/FilterHeroesWrapper";
 import { HeroesFilterHeader } from "./HeroesFilterHeader";
 
 export function App() {
